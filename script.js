@@ -6,7 +6,7 @@ const targetScore = 5;
 let currentAnswer = 0;
 let completedLevels = [];
 
-// BUGGFIX-SPÄRR: Hindrar spelaren från att spamma Enter
+// BUGGFIX: Hindrar spelaren från att spamma Enter
 let isTransitioning = false;
 
 const answerInput = document.getElementById('answer-input');
