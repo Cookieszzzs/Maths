@@ -6,7 +6,7 @@
     <title>Math Quests</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    -- link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800;900&family=Plus+Jakarta+Sans:wght@400;600;800&family=Grenze+Gotisch:wght@700;900&family=Metamorphous&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800;900&family=Plus+Jakarta+Sans:wght@400;600;800&family=Grenze+Gotisch:wght@700;900&family=Metamorphous&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,9 +16,9 @@
         
         <div id="menu-screen" class="screen">
             <h1 class="logo">MATH QUESTS<br><span class="logo-sub" id="logo-sub">CYBER</span></h1>
-            <p class="subtitle" id="menu-subtitle">Klara så många nivåer som möjligt. Klarar du alla?</p>
-            <button class="btn primary" onclick="goToScreen('level-screen')" id="enter-btn">Starta</button>
-            <button class="btn secondary" onclick="goToScreen('help-screen')" id="guide-btn">Hur spelar man</button>
+            <p class="subtitle" id="menu-subtitle">Överlista systemet. Knäck koden. Vinn racet.</p>
+            <button class="btn primary" onclick="goToScreen('level-screen')" id="enter-btn">Gå in i systemet</button>
+            <button class="btn secondary" onclick="goToScreen('help-screen')" id="guide-btn">Regler & Manual</button>
         </div>
 
         <div id="help-screen" class="screen hidden">
@@ -68,11 +68,18 @@
         </div>
 
         <div id="victory-screen" class="screen hidden">
-            <div class="victory-card">
+            <div class="victory-card epic-win">
+                <div class="epic-glow-circle"></div>
                 <div class="end-icon" id="victory-icon">🏆</div>
-                <h2 id="victory-title">Utmaningen avklarad!</h2>
-                <p id="victory-text">Du har tagit dig igenom rummet!</p>
-                <button class="btn primary" onclick="resetAndGoBack()">Tillbaka till menyn</button>
+                <h2 id="victory-title">UTMANINGEN AVKLARAD</h2>
+                
+                <div class="stats-badge">
+                    <span class="badge-label">PRESTATION</span>
+                    <div id="victory-lives-left" class="badge-value">❤️❤️❤️</div>
+                </div>
+
+                <p id="victory-text">Systemet är helt under din kontroll!</p>
+                <button class="btn primary epic-btn" onclick="resetAndGoBack()">Fortsätt Erövringen</button>
             </div>
         </div>
 
