@@ -49,7 +49,7 @@ body {
 }
 
 .accent { color: #38bdf8; }
-.subtitle { color: #64748b; margin-bottom: 40px; font-size: 1.1rem; }
+.subtitle { color: #64748b; margin-bottom: 40px; font-size: 1.1rem; text-align: center; }
 h2 { font-size: 2rem; margin-bottom: 24px; font-weight: 800; }
 
 .level-grid {
@@ -73,6 +73,7 @@ h2 { font-size: 2rem; margin-bottom: 24px; font-weight: 800; }
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
 
 .level-btn:hover {
@@ -84,6 +85,26 @@ h2 { font-size: 2rem; margin-bottom: 24px; font-weight: 800; }
     border-color: #38bdf8;
     background: rgba(56, 189, 248, 0.08);
     box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+}
+
+/* GUI: STIL FÖR AVKLARAD/MÖRKAD NIVÅ */
+.level-btn.completed {
+    background: #070a12;
+    border-color: #065f46;
+    color: #34d399;
+    opacity: 0.6;
+}
+.level-btn.completed::after {
+    content: "✓";
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 0.9rem;
+    color: #34d399;
+}
+.level-btn.completed.selected {
+    opacity: 1;
+    border-color: #38bdf8;
 }
 
 .lvl-title {
@@ -114,8 +135,14 @@ h2 { font-size: 2rem; margin-bottom: 24px; font-weight: 800; }
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     color: #94a3b8;
     margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.lives {
+    letter-spacing: 2px;
 }
 
 .card {
@@ -189,5 +216,5 @@ input[type="number"]:focus { border-color: #38bdf8; }
 }
 
 .victory-card { text-align: center; padding: 20px; }
-.trophy { font-size: 5rem; margin-bottom: 16px; animation: bounce 1s infinite alternate; }
+.trophy, .skull { font-size: 5rem; margin-bottom: 16px; animation: bounce 1s infinite alternate; }
 @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-12px); } }
