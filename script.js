@@ -4,7 +4,9 @@ let score = 0;
 let lives = 3;
 const targetScore = 5; 
 let currentAnswer = 0;
-let completedLevels = [];
+
+// Laddar sparad progress från webbläsarens minne (eller startar tom om inget finns)
+let completedLevels = JSON.parse(localStorage.getItem('mathgame-progress')) || [];
 
 let isTransitioning = false;
 
@@ -19,6 +21,7 @@ const progressBar = document.getElementById('progress-bar');
 const gameCard = document.getElementById('game-card');
 const themeModal = document.getElementById('theme-modal');
 
+// Styr vilka skärmar som visas
 function goToScreen(screenId) {
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.add('hidden');
@@ -147,12 +150,13 @@ function checkAnswer() {
         if (score >= targetScore) {
             if (!completedLevels.includes(currentLevel)) {
                 completedLevels.push(currentLevel);
+                // SPARAR PROGRESS: Sparar listan över avklarade nivåer i webbläsaren
+                localStorage.setItem('mathgame-progress', JSON.stringify(completedLevels));
             }
             updateMenuButtons();
             setTimeout(() => {
                 document.getElementById('victory-lives-left').textContent = "❤️".repeat(lives);
                 
-                // MÄNSKLIGA TEXTER - Pepp på riktigt!
                 let humanText = "";
                 if (currentTheme === 'cyber') {
                     if (lives === 3) {
@@ -205,15 +209,38 @@ function updateMenuButtons() {
         const btn = document.getElementById(`lvl-btn-${levelNum}`);
         if (btn) btn.classList.add('completed');
     });
+
+    // Kollar om ALLA 6 nivåer är avklarade för att visa trofén
+    checkGrandTrophy();
+}
+
+// NY FUNKTION: Håller koll på och delar ut den stora trofén
+function checkGrandTrophy() {
+    const mapTitle = document.getElementById('map-title');
+    if (!mapTitle) return;
+
+    if (completedLevels.length >= 6) {
+        if (currentTheme === 'cyber') {
+            mapTitle.innerHTML = "👑 SYSTEMET ÄR HACKAT! 👑<br><span style='font-size: 1.1rem; color: #00ffcc;'>Du äger nätverket. Master Hacker Trofé upplåst! 🛸</span>";
+        } else {
+            mapTitle.innerHTML = "👑 GROTTAN ÄR ERÖVRAD! 👑<br><span style='font-size: 1.1rem; color: #ffe08a;'>Du är herre över mörkret. Eviga Kungens Trofé upplåst! 🎴</span>";
+        }
+    }
 }
 
 function resetAndGoBack() {
-    selectedLevel = null;
-    startGameBtn.disabled = true;
-    startGameBtn.textContent = "Börja Utmaningen";
-    document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('selected'));
-    updateMenuButtons();
-    goToScreen('level-screen');
+    const levelScreenVisible = !document.getElementById('level-screen').classList.contains('hidden');
+    
+    if (levelScreenVisible) {
+        goToScreen('menu-screen');
+    } else {
+        selectedLevel = null;
+        startGameBtn.disabled = true;
+        startGameBtn.textContent = "Börja Utmaningen";
+        document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('selected'));
+        updateMenuButtons();
+        goToScreen('level-screen');
+    }
 }
 
 function handleInputSubmit() {
@@ -238,7 +265,9 @@ answerInput.addEventListener('keydown', (e) => {
 // =========================================
 let currentTheme = localStorage.getItem('mathgame-theme') || 'cyber';
 
+// Körs direkt vid sidladdning för att applicera rätt sparade inställningar
 applyTheme(currentTheme);
+updateMenuButtons();
 
 function openThemeModal() {
     themeModal.classList.remove('hidden');
@@ -269,7 +298,6 @@ function applyTheme(theme) {
     const enterBtn = document.getElementById('enter-btn');
     const guideBtn = document.getElementById('guide-btn');
     const helpTitle = document.getElementById('help-title');
-    const mapTitle = document.getElementById('map-title');
     const submitBtnEl = document.getElementById('submit-btn');
     const vicTitle = document.getElementById('victory-title');
     const vicIcon = document.getElementById('victory-icon');
@@ -283,7 +311,6 @@ function applyTheme(theme) {
         if(enterBtn) enterBtn.textContent = 'Gå in i systemet';
         if(guideBtn) guideBtn.textContent = 'Regler & Manual';
         if(helpTitle) helpTitle.textContent = 'Spelmanual';
-        if(mapTitle) mapTitle.textContent = 'Välj Utmaning';
         if(submitBtnEl) submitBtnEl.textContent = 'Skicka Svar';
         if(vicTitle) vicTitle.textContent = 'UTMANINGEN AVKLARAD';
         if(vicIcon) vicIcon.textContent = '🏆';
@@ -296,7 +323,6 @@ function applyTheme(theme) {
         if(enterBtn) enterBtn.textContent = 'Gå in i grottan';
         if(guideBtn) guideBtn.textContent = 'Äventyrarens guide';
         if(helpTitle) helpTitle.textContent = 'Äventyrarens Guide';
-        if(mapTitle) mapTitle.textContent = 'Kartan';
         if(submitBtnEl) submitBtnEl.textContent = 'Kasta Besvärjelse';
         if(vicTitle) vicTitle.textContent = 'SKATTEN ÄR DIN';
         if(vicIcon) vicIcon.textContent = '💎';
@@ -304,4 +330,7 @@ function applyTheme(theme) {
         if(failText) failText.textContent = 'Du föll i mörkret.';
         if(failIcon) failIcon.textContent = '💀';
     }
+
+    // Uppdaterar trofé-rubriken om man byter miljö mitt i
+    checkGrandTrophy();
 }
