@@ -119,7 +119,7 @@ function generateQuestion() {
         case 5:
             num1 = Math.floor(Math.random() * 5) + 2 + score; 
             if (currentPack === 2) num1 += 4;
-            currentAnswer = Math.floor(Math.random() * 11); // Fixade ett tak för potenser
+            currentAnswer = Math.floor(Math.random() * 11); 
             if (currentAnswer < 2) currentAnswer = 2;
             num1 = currentAnswer;
             currentAnswer = num1 * num1;
@@ -207,19 +207,17 @@ function updateMenuButtons() {
     checkGrandTrophy();
 }
 
-// UPPDATERAD: Räknar pokalerna korrekt hela tiden och visar summan
 function checkGrandTrophy() {
     const mapTitle = document.getElementById('map-title');
     const nextPackBtn = document.getElementById('next-pack-btn');
     const trophyDisplay = document.getElementById('global-trophy-count');
     if (!mapTitle) return;
 
-    // Räkna ut totala pokaler baserat på sparad fas
     let totalTrophies = 0;
     if (currentPack === 1) {
-        totalTrophies = completedLevels.length; // Max 6 i fas 1
+        totalTrophies = completedLevels.length;
     } else if (currentPack === 2) {
-        totalTrophies = 6 + completedLevels.length; // 6 från fas 1 + de nya i fas 2
+        totalTrophies = 6 + completedLevels.length; 
     }
     
     if (trophyDisplay) trophyDisplay.textContent = totalTrophies;
@@ -264,7 +262,6 @@ function activateNextPack() {
     updateMenuButtons();
 }
 
-// NY FUNKTION: Startar om nivåerna helt och skickar tillbaka spelaren till Pack 1
 function resetAllProgress() {
     if (confirm("Vill du starta om dina nivåer och rensa dina pokaler?")) {
         currentPack = 1;
