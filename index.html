@@ -3,186 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Quest: Cyber & Dungeons</title>
+    <title>Math Quest: Cyber Arena</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="theme-cyber">
 
     <div class="container">
         
         <div id="menu-screen" class="screen">
             <div class="logo-container">
-                <h1 class="main-logo">MATH QUEST</h1>
-                <div id="logo-sub" class="logo-sub">CYBER</div>
+                <h1 class="main-logo">MATH<br>QUEST</h1>
+                <div class="logo-sub">CYBER</div>
             </div>
-            
-            <p id="menu-subtitle" class="subtitle">Överlista systemet. Knäck koden. Vinn racet.</p>
-            
+            <p class="subtitle">Träna din hjärna, samla pokaler och besegra arena-bossen!</p>
             <div class="menu-buttons">
-                <button id="enter-btn" class="action-btn menu-btn-main" onclick="goToScreen('level-screen')">Gå in i systemet</button>
-                <button id="theme-btn" class="action-btn menu-btn-sub" onclick="openThemeModal()">Byt Värld / Tema</button>
-                <button id="guide-btn" class="action-btn menu-btn-sub" onclick="goToScreen('help-screen')">Regler & Manual</button>
+                <button class="action-btn menu-btn-main" onclick="goToScreen('level-screen')">Starta Äventyr</button>
+                <button class="action-btn menu-btn-sub" onclick="alert('Svara rätt på mattetalen för att vinna. I Arenan väljer du vapen: tunga vapen gör mer skada men ger mer stryk om du missar!')">Regler & Hjälp</button>
             </div>
         </div>
 
         <div id="level-screen" class="screen hidden">
             <div class="screen-header">
-                <button class="back-btn" onclick="resetAndGoBack()">↩ Meny</button>
+                <button class="back-btn" onclick="goToScreen('menu-screen')">↩ Meny</button>
                 <div class="trophy-counter">🏆 <span id="global-trophy-count">0</span></div>
             </div>
-
-            <h2 id="map-title">Välj Utmaning</h2>
+            <h2 id="map-title">VÄLJ EN NIVÅ</h2>
             
             <div class="level-grid">
-                <button id="lvl-btn-1" class="level-btn" onclick="selectLevel(1)">1<br><span class="lvl-type">➕</span></button>
-                <button id="lvl-btn-2" class="level-btn" onclick="selectLevel(2)">2<br><span class="lvl-type">➖</span></button>
-                <button id="lvl-btn-3" class="level-btn" onclick="selectLevel(3)">3<br><span class="lvl-type">✖️</span></button>
-                <button id="lvl-btn-4" class="level-btn" onclick="selectLevel(4)">4<br><span class="lvl-type">➗</span></button>
-                <button id="lvl-btn-5" class="level-btn" onclick="selectLevel(5)">5<br><span class="lvl-type">²</span></button>
-                <button id="lvl-btn-6" class="level-btn" onclick="selectLevel(6)">6<br><span class="lvl-type">🎯</span></button>
+                <button class="level-btn" onclick="selectLevel(1)">1<div class="lvl-type">+/-</div></button>
+                <button class="level-btn" onclick="selectLevel(2)">2<div class="lvl-type">+/-</div></button>
+                <button class="level-btn" onclick="selectLevel(3)">3<div class="lvl-type">Tabell</div></button>
+                <button class="level-btn" onclick="selectLevel(4)">4<div class="lvl-type">Tabell</div></button>
+                <button class="level-btn" onclick="selectLevel(5)">5<div class="lvl-type">Blandat</div></button>
+                <button class="level-btn" onclick="selectLevel(6)">6<div class="lvl-type">Blandat</div></button>
             </div>
 
-            <button id="start-game-btn" class="action-btn start-btn" onclick="startGame()" disabled>Börja Utmaningen</button>
-            <button id="next-pack-btn" class="action-btn hidden" onclick="activateNextPack()"></button>
-            
-            <button id="start-battle-btn" class="action-btn battle-mode-btn" onclick="goToScreen('battle-screen'); startBattleRound();">
-                ⚔️ ÄNTRA ARENAN (BATTLE MODE) ⚡
-            </button>
-
+            <button id="start-campaign-btn" class="action-btn" disabled onclick="startCampaignGame()">Börja Utmaningen</button>
+            <button class="action-btn battle-mode-btn" onclick="startBattleArena()">⚔️ GÅ TILL ARENAN (BOSS) ⚔️</button>
             <button class="reset-progress-btn" onclick="resetAllProgress()">Nollställ allt minne</button>
+        </div>
+
+        <div id="game-screen" class="screen hidden">
+            <div class="game-header">
+                <span id="game-level-indicator">Nivå X</span>
+                <span>Fråga: <span id="question-counter">1/10</span></span>
+            </div>
+            <div class="progress-container">
+                <div id="game-progress-bar" class="progress-bar"></div>
+            </div>
+            <div class="game-card">
+                <div id="game-question" class="question">2 x 4</div>
+                <div class="input-area">
+                    <input type="number" id="answer-input" placeholder="Svar..." autocomplete="off">
+                    <button class="action-btn" style="width: auto; margin: 0; padding: 0 25px;" onclick="submitCampaignAnswer()">Svara</button>
+                </div>
+                <div id="game-feedback" class="feedback"></div>
+            </div>
         </div>
 
         <div id="battle-screen" class="screen hidden">
             <div class="battle-header">
-                <button class="back-btn" onclick="goToScreen('level-screen')">↩ Fly fältet</button>
-                <div id="battle-stage-title">ARENA: LEVEL 1</div>
+                <button class="back-btn" onclick="goToScreen('level-screen')">🏳️ Fly</button>
+                <span id="battle-stage-title">BOSSSTRID</span>
             </div>
 
-            <div class="enemy-container">
-                <div class="enemy-avatar" id="enemy-icon">👾</div>
+            <div class="enemy-container" id="enemy-box">
+                <div class="enemy-avatar">🤖</div>
                 <div class="enemy-info">
-                    <h3 id="enemy-name">MATEMATIKUS BOSS</h3>
+                    <strong>CYBER DRAGON v.2</strong>
                     <div class="hp-bar-wrapper">
-                        <div class="hp-bar enemy-hp" id="enemy-hp-bar" style="width: 100%;"></div>
-                        <span class="hp-text" id="enemy-hp-text">100 / 100 HP</span>
+                        <div id="enemy-hp-bar" class="hp-bar enemy-hp"></div>
+                        <div id="enemy-hp-text" class="hp-text">100 / 100 HP</div>
                     </div>
                 </div>
             </div>
 
-            <div class="battle-zone" id="battle-zone">
-                <div id="battle-feedback" class="battle-feedback">Välj ditt vapen för att starta attacken!</div>
+            <div class="battle-zone">
+                <div id="battle-feedback" class="battle-feedback">Välj ett vapen nedan för att ladda din attack!</div>
                 
-                <div id="battle-quiz-container" class="hidden">
-                    <div class="battle-question" id="battle-question">X × Y</div>
+                <div id="battle-quiz-container" class="hidden" style="margin-top: 10px;">
+                    <div id="battle-question" class="battle-question">5 x 5</div>
                     <div style="display: flex; justify-content: center; align-items: center;">
-                        <input type="number" id="battle-answer-input" placeholder="Svar..." autocomplete="off">
-                        <button id="battle-submit-btn" class="action-btn">ANFALL!</button>
+                        <input type="number" id="battle-answer-input" placeholder="?">
+                        <button class="action-btn" style="width: auto; margin: 0; padding: 10px 20px;" onclick="submitBattleAnswer()">ANFALL!</button>
                     </div>
                 </div>
             </div>
 
             <div class="inventory-section" id="inventory-section">
-                <h4>VÄLJ DITT ANFALLSVAPEN:</h4>
+                <h4>VÄLJ DITT VAPEN:</h4>
                 <div class="weapon-grid">
-                    <button class="weapon-card light" onclick="selectWeapon('light')">
-                        <span class="weapon-icon">🗡️</span>
-                        <span class="weapon-name" id="wpn-light-name">Snabb Dolk</span>
-                        <span class="weapon-desc">Lätt matte (10 DMG)</span>
-                    </button>
-                    <button class="weapon-card medium" onclick="selectWeapon('medium')">
+                    <div class="weapon-card light" onclick="selectWeapon('light')">
+                        <span class="weapon-icon">🔫</span>
+                        <span class="weapon-name">Laserpistol</span>
+                        <span class="weapon-desc">Säker (10 dmg)<br>Rekyl: 10 HP</span>
+                    </div>
+                    <div class="weapon-card medium" onclick="selectWeapon('medium')">
                         <span class="weapon-icon">⚔️</span>
-                        <span class="weapon-name" id="wpn-medium-name">Riddarsvärd</span>
-                        <span class="weapon-desc">Medium matte (25 DMG)</span>
-                    </button>
-                    <button class="weapon-card heavy" onclick="selectWeapon('heavy')">
-                        <span class="weapon-icon">🔨</span>
-                        <span class="weapon-name" id="wpn-heavy-name">Stridsslägga</span>
-                        <span class="weapon-desc">Tung matte (50 DMG)</span>
-                    </button>
+                        <span class="weapon-name">Plasma-svärd</span>
+                        <span class="weapon-desc">Normal (25 dmg)<br>Rekyl: 25 HP</span>
+                    </div>
+                    <div class="weapon-card heavy" onclick="selectWeapon('heavy')">
+                        <span class="weapon-icon">🚀</span>
+                        <span class="weapon-name">Megakanon</span>
+                        <span class="weapon-desc">Tung (50 dmg)<br>Rekyl: 40 HP</span>
+                    </div>
                 </div>
             </div>
 
             <div class="player-battle-hud">
-                <div class="player-info">
-                    <h3>DITT HP</h3>
-                    <div class="hp-bar-wrapper">
-                        <div class="hp-bar player-hp" id="player-hp-bar" style="width: 100%;"></div>
-                        <span class="hp-text" id="player-hp-text">100 / 100 HP</span>
-                    </div>
+                <strong>DITT LIV:</strong>
+                <div class="hp-bar-wrapper">
+                    <div id="player-hp-bar" class="hp-bar player-hp"></div>
+                    <div id="player-hp-text" class="hp-text">100 / 100 HP</div>
                 </div>
-            </div>
-        </div>
-
-        <div id="game-screen" class="screen hidden">
-            <div class="game-header">
-                <div id="level-indicator" class="level-indicator">Nivå X</div>
-                <div id="lives-indicator" class="lives-indicator">❤️❤️❤️</div>
-            </div>
-
-            <div class="progress-container">
-                <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
-            </div>
-
-            <div id="game-card" class="game-card">
-                <div id="question" class="question">0 + 0</div>
-                
-                <div class="input-area">
-                    <input type="number" id="answer-input" placeholder="Svar" autocomplete="off">
-                    <button id="submit-btn" class="action-btn">Skicka Svar</button>
-                </div>
-
-                <div id="feedback" class="feedback"></div>
             </div>
         </div>
 
         <div id="victory-screen" class="screen hidden">
             <div class="victory-card">
                 <div id="victory-icon" class="victory-icon">🏆</div>
-                <h2 id="victory-title">UTMANINGEN AVKLARAD</h2>
-                <p id="victory-text">Snyggt! Du krossade nivån.</p>
-                <div class="victory-stats">
-                    Återstående liv: <span id="victory-lives-left">❤️❤️❤️</span>
-                </div>
-                <button class="action-btn" onclick="resetAndGoBack()">Tillbaka till Kartan</button>
+                <h2 id="victory-title">NIVÅ KLARAD!</h2>
+                <p id="victory-text" class="victory-stats">Du klarade nivån!</p>
+                <div id="victory-lives-left" style="font-weight: bold; margin-bottom: 20px;"></div>
+                <button class="action-btn menu-btn-main" onclick="goToScreen('level-screen')">Tillbaka till kartan</button>
             </div>
         </div>
 
         <div id="game-over-screen" class="screen hidden">
             <div class="fail-card">
-                <div id="fail-icon" class="fail-icon">💥</div>
-                <h2 id="fail-title">Systemfel...</h2>
-                <p id="fail-text">Dina liv tog slut.</p>
+                <div id="fail-icon" class="fail-icon">❌</div>
+                <h2 id="fail-title">SLUT PÅ LIV!</h2>
+                <p id="fail-text">Hjärnan blev överhettad. Försök igen!</p>
                 <div class="fail-buttons">
-                    <button class="action-btn retry-btn" onclick="retryCurrentLevel()">Försök igen</button>
-                    <button class="action-btn menu-btn-sub" onclick="resetAndGoBack()">Ge upp</button>
+                    <button class="action-btn retry-btn" onclick="retryCurrentGame()">Försök Igen</button>
+                    <button class="action-btn menu-btn-sub" onclick="goToScreen('level-screen')">Tillbaka till kartan</button>
                 </div>
             </div>
         </div>
 
-        <div id="help-screen" class="screen hidden">
-            <h2 id="help-title">Spelmanual</h2>
-            <div class="help-content">
-                <h3>Kampanjläge</h3>
-                <p>Svara rätt på 5 tal i rad för att klara en nivå och vinna en pokal. Svarar du fel förlorar du ett liv!</p>
-                <h3>Battle Mode (Arenan)</h3>
-                <p>Möt fiender och bossar i turordningsbaserad strid. Välj ett lätt, medium eller tungt vapen innan varje uppgift. Ju tyngre vapen, desto svårare blir matten – men skadan du gör blir enorm! Besegra bossar för legendariska uppgraderingar.</p>
-            </div>
-            <button class="action-btn" onclick="goToScreen('menu-screen')">Tillbaka till menyn</button>
-        </div>
-
-    </div> <div id="theme-modal" class="modal hidden" onclick="closeThemeModalOnOverlay(event)">
-        <div class="modal-content">
-            <h3>Välj din verklighet</h3>
-            <div class="theme-options">
-                <button class="theme-select-btn cyber-select" onclick="selectThemeViaModal('cyber')">
-                    <span class="theme-icon">🌌</span> Cyber-Grid
-                </button>
-                <button class="theme-select-btn dungeons-select" onclick="selectThemeViaModal('dungeons')">
-                    <span class="theme-icon">🧱</span> Forgotten Dungeons
-                </button>
-            </div>
-            <button class="close-modal-btn" onclick="closeThemeModal()">Stäng</button>
-        </div>
     </div>
 
     <script src="script.js"></script>
