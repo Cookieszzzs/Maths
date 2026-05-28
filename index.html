@@ -18,7 +18,7 @@
             <p class="subtitle">Träna din hjärna, samla pokaler och besegra arena-bossen!</p>
             <div class="menu-buttons">
                 <button class="action-btn menu-btn-main" onclick="goToScreen('level-screen')">Starta Äventyr</button>
-                <button class="action-btn menu-btn-sub" onclick="alert('Svara rätt på mattetalen för att vinna. I Arenan väljer du vapen: tunga vapen gör mer skada men ger mer stryk om du missar!')">Regler & Hjälp</button>
+                <button class="action-btn menu-btn-sub" onclick="alert('Svara rätt på mattetalen för att vinna.\nI Kampanjen har du 3 liv.\nI Arenan väljer du vapen: tunga vapen gör mer skada men straffar dig mer om du missar!')">Regler & Hjälp</button>
             </div>
         </div>
 
@@ -46,6 +46,7 @@
         <div id="game-screen" class="screen hidden">
             <div class="game-header">
                 <span id="game-level-indicator">Nivå X</span>
+                <span id="lives-display">❤️❤️❤️</span>
                 <span>Fråga: <span id="question-counter">1/10</span></span>
             </div>
             <div class="progress-container">
@@ -64,7 +65,7 @@
         <div id="battle-screen" class="screen hidden">
             <div class="battle-header">
                 <button class="back-btn" onclick="goToScreen('level-screen')">🏳️ Fly</button>
-                <span id="battle-stage-title">BOSSSTRID</span>
+                <span id="battle-stage-title" style="font-weight: bold; letter-spacing: 2px;">BOSSSTRID</span>
             </div>
 
             <div class="enemy-container" id="enemy-box">
@@ -84,7 +85,7 @@
                 <div id="battle-quiz-container" class="hidden" style="margin-top: 10px;">
                     <div id="battle-question" class="battle-question">5 x 5</div>
                     <div style="display: flex; justify-content: center; align-items: center;">
-                        <input type="number" id="battle-answer-input" placeholder="?">
+                        <input type="number" id="battle-answer-input" placeholder="?" autocomplete="off">
                         <button class="action-btn" style="width: auto; margin: 0; padding: 10px 20px;" onclick="submitBattleAnswer()">ANFALL!</button>
                     </div>
                 </div>
@@ -96,17 +97,17 @@
                     <div class="weapon-card light" onclick="selectWeapon('light')">
                         <span class="weapon-icon">🔫</span>
                         <span class="weapon-name">Laserpistol</span>
-                        <span class="weapon-desc">Säker (10 dmg)<br>Rekyl: 10 HP</span>
+                        <span class="weapon-desc">Säker (15 dmg)<br>Rekyl: 15 HP</span>
                     </div>
                     <div class="weapon-card medium" onclick="selectWeapon('medium')">
                         <span class="weapon-icon">⚔️</span>
                         <span class="weapon-name">Plasma-svärd</span>
-                        <span class="weapon-desc">Normal (25 dmg)<br>Rekyl: 25 HP</span>
+                        <span class="weapon-desc">Normal (30 dmg)<br>Rekyl: 25 HP</span>
                     </div>
                     <div class="weapon-card heavy" onclick="selectWeapon('heavy')">
                         <span class="weapon-icon">🚀</span>
                         <span class="weapon-name">Megakanon</span>
-                        <span class="weapon-desc">Tung (50 dmg)<br>Rekyl: 40 HP</span>
+                        <span class="weapon-desc">Tung (55 dmg)<br>Rekyl: 40 HP</span>
                     </div>
                 </div>
             </div>
